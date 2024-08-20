@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Submissions for {{ event_name }}</title>
+    <link href="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+</head>
+<body>
+    <div class="container mt-5">
+        <h1 class="mb-4">Submissions for {{ event_name }}</h1>
+
+        {% if submissions %}
+        <table class="table table-striped">
+            <thead>
+                <tr>
+                    <th>User Name</th>
+                    <th>Submission File</th>
+                    <th>Actions</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for submission_id, submission in submissions.items() %}
+                <tr>
+                    <td>
+                        {% if submission.user_info %}
+                            {{ submission.user_info.name }}
+                        {% else %}
+                            Unknown User
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if submission.file_url %}
+                            <a href="{{ submission.file_url }}" class="btn btn-primary" target="_blank">View File</a>
+                        {% else %}
+                            <span class="text-muted">No File</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if submission.file_url %}
+                            <a href="{{ submission.file_url }}" class="btn btn-success" download>Download</a>
+                        {% else %}
+                            <span class="text-muted">No File</span>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+        {% else %}
+        <div class="alert alert-warning" role="alert">
+            No submissions found for this event.
+        </div>
+        {% endif %}
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+</body>
+</html>

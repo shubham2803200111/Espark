@@ -1,0 +1,42 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+
+<div class="container">
+    <div class="row justify-content-center">
+        <div class="col-sm-6">
+            <h1 class="text-center text-primary">User Profile</h1>
+
+            <form method="POST" enctype="multipart/form-data">
+                {% if user_data.profile_image_url %}
+                <div class="d-flex justify-content-center mb-3">
+                    <!-- Profile image -->
+                    <img src="{{ user_data.profile_image_url }}" alt="Profile Image" class="profile-image rounded-circle" width="200" height="200">
+
+                    <!-- Hidden file input for updating profile image -->
+                    <input type="file" id="profile_image" name="profile_image" class="hidden-file-input" onchange="this.form.submit()" style="display:none;">
+                </div>
+                {% endif %}
+
+                <label for="name">Name:</label>
+                <input class="form-control" type="text" id="name" name="name" value="{{ user_data.get('name', '') }}" required>
+                <label for="mobile_no">Mobile Number:</label>
+                <input class="form-control" type="text" id="mobile_no" name="mobile_no" value="{{ user_data.get('mobile_no', '') }}" required>
+                <label for="college">College:</label>
+                <input class="form-control" type="text" id="college" name="college" value="{{ user_data.get('college', '') }}" required>
+                <label for="dob">Date of Birth:</label>
+                <input class="form-control" type="date" id="dob" name="dob" value="{{ user_data.get('dob', '') }}" required>
+                <label for="address">Address:</label>
+                <textarea class="form-control" id="address" name="address" required>{{ user_data.get('address', '') }}</textarea>
+                <button class="btn btn-warning mt-2" type="submit">Update Details</button>
+                <a href="/logout" class="btn btn-primary">Logout</a>
+            </form>
+        </div>
+    </div>
+</div>
+
+{% endblock %}

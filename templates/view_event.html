@@ -1,0 +1,63 @@
+{% extends "base.html" %}
+
+{% block title %}
+    view_event
+{% endblock %}
+
+{% block content %}
+    <div class="container mx-auto border p-5 bg-light event_box m-5">
+        <div class="row">
+            <div class="col-sm-12">
+                <img class="banner_image" src="{{ event['banner_url'] }}" alt="{{ event['name'] }}" >
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Image section -->
+            <div class="col-md-6 col-12">
+                <img class="event_img mt-3" src="{{ event['image_url'] }}" alt="{{ event['name'] }}" >
+            </div>
+
+            <!-- Info section -->
+            <div class="col-md-6 col-12">
+                <h3>{{ event['name'] }}</h3>
+                <p><strong>Start </strong> {{ event.start_datetime }}</p>
+                <p><strong>End</strong> {{ event.end_datetime }}</p>
+                <p><strong>Event By:</strong> {{ event['by'] }}</p>
+            </div>
+
+            <div class="row">
+                <div class="col-sm-12">
+                    <p><strong>Description:</strong> {{ event['description'] }}</p>
+                    <a href="{{ url_for('index') }}">Back to Home</a>
+                </div>
+            </div>
+        </div>
+
+        {% if event['type'] == 'task' %}
+            <div class="row mt-3">
+                <div class="col-sm-12">
+                    <form method="POST" enctype="multipart/form-data">
+                        <div class="form-group">
+                            <label for="comment">Comment:</label>
+                            <input type="text" id="comment" name="comment" class="form-control">
+                        </div>
+                        <div class="form-group">
+                            <label for="file">Upload File:</label>
+                            <input type="file" id="file" name="file" class="form-control">
+                        </div>
+                        <button type="submit" class="btn btn-primary">Submit</button>
+                    </form>
+                </div>
+            </div>
+        {% endif %}
+
+        <div class="row mt-3">
+            <div class="col-sm-12 text-center">
+                {% if event['type'] == 'quiz' %}
+                    <a href="{{ url_for('start_quiz', event_id=event['event_id']) }}" class="btn btn-primary">Play Quiz</a>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+{% endblock %}

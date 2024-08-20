@@ -1,0 +1,267 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+{% block head %}
+
+<link
+    rel="stylesheet"
+    href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css"
+    integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC"
+    crossorigin="anonymous"
+/>
+
+<link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+
+<style>
+:root {
+  --primary-background: #fff;
+  --primary-border-card: rgba(0, 0, 0, 0.125);
+  --primary-date: grey;
+  --primary-organisation: black;
+  --primary-input-border: #e1e4e8;
+  --primary-input-background: #fff;
+  --primary-faq-background: #5d6a7a;
+}
+
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #f1f1f1;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #000066;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: black;
+}
+
+#contactus {
+  background-color: var(--primary-contact-background);
+  padding: 25px 50px;
+  padding-bottom: 55px;
+}
+
+#contact-head {
+  text-align: center;
+  text-transform: uppercase;
+  color: var(--primary-title);
+  font-weight: 650;
+  font-size: 35px;
+  border-bottom: 1.5px solid var(--primary-title);
+  padding-bottom: 4px;
+}
+
+#contact-message {
+  color: var(--primary-title);
+  margin-top: 15px;
+  text-align: center;
+  font-weight: 500;
+  font-size: 20px;
+  margin: 0px 20px;
+}
+
+#form-footer {
+  margin-top: 30px;
+}
+
+.center-div {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.contact-table {
+  padding: 10px 25px;
+  padding-bottom: 30px;
+  min-width: 100%;
+  background-color: var(--primary-background);
+  border-radius: 15px;
+  box-shadow: rgba(0, 0, 0, 0.19) 0px 10px 20px, rgba(0, 0, 0, 0.23) 0px 6px 6px;
+}
+
+.input-container {
+  margin: 20px 0;
+}
+
+.contact-inputs {
+  margin-left: 5px;
+  margin-bottom: 12px;
+  font-size: 14px;
+  color: var(--primary-title);
+}
+
+.btn-md {
+  font-weight: 600;
+  background-color: rgb(128, 128, 128);
+  color: var(--primary-background);
+  width: 100%;
+}
+
+.footer-details {
+  font-size: 16px;
+  font-weight: 500;
+  margin-bottom: 10px;
+}
+
+.footer-details i {
+  color: rgb(67, 67, 163);
+}
+
+.footer-details span {
+  color: black;
+}
+
+#social-media-icons {
+  margin-top: 20px;
+  display: flex;
+  justify-content: space-around;
+  font-size: 28px;
+}
+
+.social-media {
+  color: var(--primary-title);
+  transition: color 0.15s ease-in;
+}
+
+.social-media:hover {
+  color: rgb(67, 67, 163);
+}
+
+.contact-input-tags {
+  border: 1.5px solid var(--primary-input-border) !important;
+  background-color: var(--primary-input-background) !important;
+}
+
+.contact-input-tags:focus {
+  border: 1.5px solid var(--primary-input-border) !important;
+  background-color: var(--primary-input-background) !important;
+  outline: none !important;
+}
+
+@media (max-width: 991px) {
+  #contactus {
+    padding: 20px 20px;
+    padding-bottom: 40px;
+  }
+  .contact-table {
+    padding: 10px;
+  }
+  .footer-details {
+    font-size: 14px;
+  }
+  #contact-message {
+    font-size: 18px;
+    margin: 0px 10px;
+  }
+}
+
+@media (max-width: 768px) {
+  #contact-head {
+    font-size: 28px;
+  }
+  #contact-message {
+    font-size: 16px;
+  }
+}
+
+@media (max-width: 576px) {
+  #contact-head {
+    font-size: 24px;
+  }
+  #contact-message {
+    font-size: 14px;
+  }
+  .footer-details {
+    font-size: 12px;
+  }
+  #social-media-icons {
+    font-size: 22px;
+  }
+}
+
+body {
+  margin: 0;
+  overflow-x: hidden;
+}
+
+</style>
+
+{% endblock %}
+
+{% block content %}
+
+<section id="contactus">
+  <p id="contact-head">Contact us</p>
+  <hr>
+  <p id="contact-message">
+    Do you have any questions? Please do not hesitate to contact us directly. Our team will come back to you within a matter of hours to help you.
+  </p>
+
+  <div class="container">
+    <div id="form-footer" class="row">
+      <div class="col-md-8 col-sm-12">
+        <!-- Display flash messages -->
+        {% with messages = get_flashed_messages(with_categories=true) %}
+          {% if messages %}
+            <div class="alert alert-success" role="alert">
+              {{ messages[0][1] }}
+            </div>
+          {% endif %}
+        {% endwith %}
+
+        <div class="center-div">
+          <div class="contact-table">
+            <form action="{{ url_for('contact') }}" method="POST" id="my-form">
+              <div class="input-container">
+                <label class="contact-inputs" for="validationCustom01">Your Name :</label>
+                <input type="text" class="form-control contact-input-tags" required id="validationCustom01" placeholder="Enter your name" name="name" onchange="validateFormInput()">
+                <p class="invalid-feedback">Invalid name entered. Digits and symbols are not allowed.</p>
+              </div>
+              <div class="input-container">
+                <label class="contact-inputs" for="validationCustom02">Your Email :</label>
+                <input type="email" class="form-control contact-input-tags" required id="validationCustom02" placeholder="Enter your email address" name="email" onchange="validateFormInput()">
+                <p class="invalid-feedback">Invalid email entered.</p>
+              </div>
+              <div class="input-container">
+                <label class="contact-inputs" for="validationCustom03">Message :</label>
+                <textarea type="text" class="form-control contact-input-tags" required id="validationCustom03" placeholder="Enter your message here . . ." rows="4" name="message"></textarea>
+              </div>
+              <div>
+                <button id="submit-btn" class="btn btn-md btn-outline-primary" type="submit">SUBMIT</button>
+              </div>
+            </form>
+          </div>
+        </div>
+        <div style="margin-top: 20px;" id="status"></div>
+      </div>
+      <div id="social-section" class="col-md-4 col-sm-12 mt-4 mt-md-0">
+        <div class="box-sz">
+          <div class="footer-details">
+            <i class="fa fa-map-marker mr-2" aria-hidden="true"></i>
+            Institute Of Engineering Technology, Ayodhya 224001, U.P
+          </div>
+          <a href="mailto:rohitkumaryadav451@gmail.com" style="text-decoration: none;">
+            <p class="footer-details"><i class="fa fa-envelope mr-2" aria-hidden="true"></i>xyzgmail.com</p>
+          </a>
+          <p class="footer-details"><i class="fa fa-phone mr-2" aria-hidden="true"></i>9161286089</p>
+          <p class="footer-details"><i class="fa fa-fax mr-2" aria-hidden="true"></i>10002876362</p>
+        </div>
+        <div id="social-media-icons">
+          <a href=""><i class="fa fa-facebook-square social-media" aria-hidden="true"></i></a>
+          <a href=""><i class="fa fa-linkedin-square social-media" aria-hidden="true"></i></a>
+          <a href=""><i class="fa fa-twitter social-media" aria-hidden="true"></i></a>
+          <a href=""><i class="fa fa-github social-media" aria-hidden="true"></i></a>
+          <a href=""><i class="fa fa-instagram social-media" aria-hidden="true"></i></a>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+{% endblock %}

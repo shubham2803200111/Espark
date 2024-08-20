@@ -1,0 +1,230 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Home</title>
+    <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/npm/bootstrap@4.6.2/dist/css/bootstrap.min.css"
+        integrity="sha384-xOolHFLEh07PJGoPkLv1IbcEPTNtaed2xpHsD9ESMhqIYd0nLMwNLD69Npy4HI+N"
+        crossorigin="anonymous">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+
+    <style>
+        body {
+            background-color: #f8f9fa;
+        }
+
+        h1, h2 {
+            color: #343a40;
+        }
+
+        .btn-create {
+            background-color: #007bff;
+            color: white;
+            margin: 5px 0;
+        }
+
+        .sidebar {
+            background-color: #343a40;
+            padding: 20px;
+            height: 100vh;
+            color: white;
+        }
+
+        .sidebar h2 {
+            color: #ffc107;
+        }
+
+        .sidebar ul {
+            list-style-type: none;
+            padding-left: 0;
+        }
+
+        .sidebar ul li a {
+            color: white;
+            text-decoration: none;
+            display: block;
+            padding: 10px 0;
+        }
+
+        .sidebar ul li a:hover {
+            background-color: #007bff;
+            border-radius: 5px;
+            padding-left: 10px;
+            transition: all 0.3s;
+        }
+
+        .content {
+            padding: 20px;
+        }
+
+        .table {
+            background-color: white;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.1);
+        }
+
+        .table th, .table td {
+            text-align: center;
+            vertical-align: middle;
+        }
+
+        .table th {
+            background-color: #007bff;
+            color: white;
+        }
+
+        .card {
+            box-shadow: 0px 0px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .user-image {
+            width: 50px;
+            height: 50px;
+            border-radius: 50%;
+            object-fit: cover;
+        }
+    </style>
+</head>
+
+<body>
+    <div class="container-fluid">
+        <div class="row">
+            <!-- Sidebar -->
+            <div class="col-md-3 sidebar">
+                <h2 class="text-light"><i class="fa fa-dashboard"></i>Admin Dashboard</h2>
+                <a href="{{ url_for('admin_event') }}" class="btn btn-create">Create Event</a>
+                <a href="{{ url_for('admin_create_blog') }}" class="btn btn-create">Create Blog</a>
+                <hr>
+                <h2>Options</h2>
+                <ul>
+                    <li><a href="{{ url_for('admin_home', option='home') }}">Home</a></li>
+                    <li><a href="{{ url_for('admin_home', option='users') }}">Users</a></li>
+                    <li><a href="{{ url_for('admin_home', option='events') }}">Events</a></li>
+                    <li><a href="{{ url_for('admin_home', option='contacts') }}">Contacts</a></li>
+                </ul>
+            </div>
+
+            <!-- Main Content -->
+            <div class="col-md-9 content">
+                {% if option == 'users' %}
+                    <h2 class="mb-4">Registered Users</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>User ID</th>
+                                <th>Name</th>
+                                <th>Address</th>
+                                <th>Mobile No</th>
+                                <th>College</th>
+                                <th>Profile Image</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for user in data.users %}
+                            <tr>
+                                <td>{{ user.user_id }}</td>
+                                <td>{{ user.name }}</td>
+                                <td>{{ user.address }}</td>
+                                <td>{{ user.mobile_no }}</td>
+                                <td>{{ user.college }}</td>
+                                <td><img src="{{ user.profile_img }}" alt="Profile Image" class="user-image"></td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% elif option == 'events' %}
+                    <h2 class="mb-4">Events</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Event Name</th>
+                                <th>Start Date</th>
+                                <th>Hosted By</th>
+                                <th>Description</th>
+                                <th>Action</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for event in data.events %}
+                            <tr>
+                                <td>{{ event.name }}</td>
+                                <td>{{ event.start_datetime }}</td>
+                                <td>{{ event.by }}</td>
+                                <td>{{ event.description }}</td>
+                                <td>
+                                    {% if event.type == 'task' %}
+                                        <a href="{{ url_for('view_submissions', event_id=event.event_id) }}" class="btn btn-primary">Submission</a>
+                                    {% else %}
+                                        <a href="{{ url_for('admin_leaderboard', event_id=event.event_id) }}" class="btn btn-info">Leaderboard</a>
+                                    {% endif %}
+                                </td>
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% elif option == 'contacts' %}
+                    <h2 class="mb-4">Contact Messages</h2>
+                    <table class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th>Name</th>
+                                <th>Email</th>
+                                <th>Message</th>
+                                <th>Timestamp</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            {% for contact in data.contacts %}
+                            <tr>
+                                <td>{{ contact.name }}</td>
+                                <td>{{ contact.email }}</td>
+                                <td>{{ contact.message }}</td>
+                                <td>{{ contact.timestamp | to_datetime }}</td>  <!-- Assuming you have a filter to format the timestamp -->
+                            </tr>
+                            {% endfor %}
+                        </tbody>
+                    </table>
+                {% elif option == 'home' %}
+                    <div class="card p-4 mb-4">
+                        <h2>All Users</h2>
+                        <ul>
+                            {% for user in data.users %}
+                            <li>{{ user.name }}</li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+
+                    <div class="card p-4">
+                        <h2>All Events</h2>
+                        <ul>
+                            {% for event in data.events %}
+                            <li>
+                                <strong>Name:</strong> {{ event.name }}<br>
+                                <strong>Date:</strong> {{ event.date }}<br>
+                                <strong>Event By:</strong> {{ event.by }}<br>
+                                <strong>Description:</strong> {{ event.description }}
+                                {% if event.type == 'task' %}
+                                    <a href="{{ url_for('view_submissions', event_id=event.event_id) }}" class="btn btn-primary mt-2">Submission</a>
+                                {% else %}
+                                    <a href="{{ url_for('admin_leaderboard', event_id=event.event_id) }}" class="btn btn-info mt-2">Leaderboard</a>
+                                {% endif %}
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                {% endif %}
+            </div>
+        </div>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"
+        integrity="sha384-DfXdz2htPH0lsSSs5nCTpuj/zy4C+OGpamoFVy38MVBnE+IbbVYUew+OrCXaRkfj"
+        crossorigin="anonymous"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.3/dist/js/bootstrap.bundle.min.js"
+        integrity="sha384-ho+j7jyWK8fNQe+A12Hb8AhRq26LrZ/JpcUGGOn+Y7RsweNrtN/tE3MoK7ZeZDyx"
+        crossorigin="anonymous"></script>
+</body>
+
+</html>

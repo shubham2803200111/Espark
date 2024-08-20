@@ -1,0 +1,30 @@
+{% extends "base.html" %}
+
+{% block title %}
+    Home
+{% endblock %}
+
+{% block content %}
+
+<div class="container bg-light p-5">
+    <div class="row">
+        <div class="col-sm-3"></div>
+        <div class="col-sm-6">
+             <h1 class=" text-dark mb-5">Login</h1>
+    {% if error %}
+        <p>{{ error }}</p>
+    {% endif %}
+    <form method="post">
+        <input class="form-control" type="email" name="email" placeholder="Email" required><br>
+        <input class="form-control" type="password" name="password" placeholder="Password" required><br>
+        <input class="form-control btn btn-primary" type="submit" value="Login">
+        <p>Not registered yet,<a href="/signup">Sign Up</a></p>
+    </form>
+
+
+        </div>
+        <div class="col-sm-3"></div>
+    </div>
+</div>
+
+{% endblock %}
