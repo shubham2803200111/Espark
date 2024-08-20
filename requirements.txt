@@ -23,7 +23,6 @@ pyasn1==0.6.0
 pyasn1_modules==0.4.0
 pycryptodome==3.4.3
 pyparsing==3.1.2
-Pyrebase==3.0.27
 Pyrebase4==4.8.0
 python-dateutil==2.9.0.post0
 python-jwt==2.0.1
