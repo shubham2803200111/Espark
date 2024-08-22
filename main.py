@@ -667,9 +667,9 @@ def generate_certificate():
     draw = ImageDraw.Draw(certificate)
 
     # Use the default font provided by PIL
-    font_name = ImageFont.truetype("arial", size=60)
-    font_quiz = ImageFont.truetype("arial", size=60)  # Font size for the quiz name
-    font_organizer = ImageFont.truetype("arial", size=60)
+    font_name = ImageFont.truetype("static/ARIAL.TTF", size=60)
+    font_quiz = ImageFont.truetype("static/ARIAL.TTF", size=60)  # Font size for the quiz name
+    font_organizer = ImageFont.truetype("static/ARIAL.TTF", size=60)
 
     # Define text position and color
     text_color = (0, 0, 0)  # Black color
